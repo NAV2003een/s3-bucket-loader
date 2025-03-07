@@ -1,19 +1,23 @@
-name: sync to S3 
+name: Sync to S3
 on:
   push:
     branches:
-      -main
+      - main
+
 jobs:
   sync:
     runs-on: ubuntu-latest
+
     steps:
-    - name: chekcout Repository
-      uses: action/chekcout@v3
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v2
       with:
-        aws-access-key-id: ${{ screts.AWS_ACCESS_KEY }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
         aws-region: eu-north-1
-    - name: Sync to s3
+
+    - name: Sync to S3
       run: aws s3 sync . s3://git-bucket-loader/index.html
